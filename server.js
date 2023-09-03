@@ -1,4 +1,6 @@
 const app = require("./app");
+const pool = require("./db/db");
+
 
 // handle uncaught exceptions
 process.on('uncaughtException', err => {

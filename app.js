@@ -22,8 +22,10 @@ if(process.env.NODE_ENV !== "PRODUCTION") {
 
 //import routes
 const buyerRoutes = require("./Routes/buyerRoutes");
+const sellerRoutes = require("./Routes/sellerRoutes");
 
 app.use('/api/buyer', buyerRoutes);
+app.use('/api/seller', sellerRoutes);
 
 //error handling
 // app.use(ErrorHandler);

@@ -3,7 +3,20 @@ const pool = require('../db/db');
 // const checkMail = "SELECT * FROM public.user WHERE email = $1";
 const getMail = "SELECT email FROM public.user WHERE email = $1";   
 const getPassword = "SELECT password FROM public.user WHERE email = $1";
+const getID = "SELECT user_id FROM public.user WHERE email = $1";
 const bcrypt = require('bcrypt');
+
+const getUserID = (email) => {
+  return new Promise((resolve, reject) => {
+    pool.query(getID, [email], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results.rows[0].user_id);
+      }
+    });
+  });
+} 
 
 const checkPassword = (password, email) => {
     return new Promise((resolve, reject) => {
@@ -40,4 +53,5 @@ const checkMail = (email) => {
 module.exports = {
     checkMail,
     checkPassword,
+    getUserID,
 }

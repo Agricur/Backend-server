@@ -42,6 +42,7 @@ const getData = async (req, res) => {
         // Send user data as a response
         res.json({
           first_name: first_name,
+          user_id: userId,
         });
       });
 }

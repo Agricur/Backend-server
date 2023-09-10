@@ -21,6 +21,21 @@ const addProduct = async (req, res) => {
 
 };
 
+const getProducts = async (req, res) => {
+    const user_id = req.params.userID;
+    console.log(user_id);
+    const shop_id = await Shop.getShopId(user_id);
+    console.log(shop_id); 
+    try{
+        const products = await Shop.getProducts(shop_id);
+        console.log(products);
+        res.status(200).json({ products: products }); 
+    }catch(err){
+        res.status(400).json({ message: err }); 
+    }
+}
+
 module.exports = {
     addProduct,
+    getProducts,
 }

@@ -22,7 +22,7 @@ const loginUser = async (req, res) => {
         } 
     }
 };
-
+ 
 const getData = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
@@ -43,11 +43,26 @@ const getData = async (req, res) => {
         res.json({
           first_name: first_name,
           user_id: userId,
+          is_seller: isSeller, 
         });
       });
 }
 
+const getAllProducts = async (req, res) => {
+    try{
+        const products = await User.getAllProducts();
+        for(const item of products){
+            const shop_id = item.shop_id;
+            const shop_name = await User.getShopNames(shop_id);
+            item.shop_name = shop_name;
+        }
+        res.status(200).json({ products: products }); 
+    }catch(err){
+        res.status(400).json({ message: err }); 
+    }
+}
 
+ 
 // const isLogged = async (req, res, next) => {
 //     if(req.cookie.jwt){
 //         try{
@@ -64,4 +79,5 @@ const getData = async (req, res) => {
 module.exports = {
     loginUser,
     getData,
+    getAllProducts,
 }

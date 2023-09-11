@@ -1,4 +1,3 @@
-const pool = require("../db/db");
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
@@ -48,20 +47,6 @@ const getData = async (req, res) => {
       });
 }
 
-const getAllProducts = async (req, res) => {
-    try{
-        const products = await User.getAllProducts();
-        for(const item of products){
-            const shop_id = item.shop_id;
-            const shop_name = await User.getShopNames(shop_id);
-            item.shop_name = shop_name;
-        }
-        res.status(200).json({ products: products }); 
-    }catch(err){
-        res.status(400).json({ message: err }); 
-    }
-}
-
  
 // const isLogged = async (req, res, next) => {
 //     if(req.cookie.jwt){
@@ -79,5 +64,4 @@ const getAllProducts = async (req, res) => {
 module.exports = {
     loginUser,
     getData,
-    getAllProducts,
 }

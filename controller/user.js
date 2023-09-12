@@ -14,7 +14,7 @@ const loginUser = async (req, res) => {
             const token = jwt.sign({ user_id,is_seller }, process.env.JWT_SECRET,{
                 expiresIn: process.env.JWT_EXPIRES_TIME,
             }); 
-            
+                       
             res.status(201).json({ message: "Successfully logged in!",token: token, user_id: user_id, is_seller: is_seller });
         }else{
             res.status(400).json({ message: "Username or Password is incorrect!" });

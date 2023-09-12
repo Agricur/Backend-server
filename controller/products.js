@@ -85,6 +85,20 @@ const getEquipments = async (req, res) => {
     }
 };
 
+const getProduct = async (req, res) => {
+    try{
+        const product_id = req.params.id;
+        const product = await Product.getProduct(product_id);
+        const shop_id = product.shop_id;
+        const shop_name = await User.getShopNames(shop_id);
+        product.shop_name = shop_name;
+        res.status(200).json({ product: product }); 
+    }catch(err){
+        res.status(400).json({ message: err }); 
+    }
+
+}
+
 
 
 module.exports = {
@@ -94,5 +108,6 @@ module.exports = {
     getGrains,
     getFertilizers,
     getEquipments,
+    getProduct,
 
 }

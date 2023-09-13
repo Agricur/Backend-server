@@ -5,6 +5,7 @@ const router = Router();
 
 // Define routes related to user operations
 router.post('/user-login', userController.loginUser);
-
-module.exports = router;
+router.get('/data', userController.getData) 
+ 
+module.exports = router; 
  

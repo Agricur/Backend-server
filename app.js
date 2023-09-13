@@ -24,13 +24,19 @@ if(process.env.NODE_ENV !== "PRODUCTION") {
 const buyerRoutes = require("./Routes/buyerRoutes");
 const sellerRoutes = require("./Routes/sellerRoutes");
 const userRoutes = require("./Routes/userRoutes");
+const shopRoutes = require("./Routes/shopRoutes");
+const productRouts = require("./Routes/productRoutes")
+
 
 app.use('/api/buyer', buyerRoutes);
 app.use('/api/seller', sellerRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/shop', shopRoutes);
+app.use('/api/product', productRouts);
+
 
 //error handling
-// app.use(ErrorHandler);
+// app.use(ErrorHandler); 
 
  
 module.exports = app; 

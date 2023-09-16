@@ -5,7 +5,7 @@ const Vegetables = "SELECT product_id,shop_id,name,price,price_unit,image FROM p
 const Grains = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product WHERE category = 'Grains'";
 const Fertilizers = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product WHERE category = 'Fertilizers'";
 const Equipments = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product WHERE category = 'Equipment'";
-const getProducts = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product";
+const getProducts = "SELECT product_id,shop_id,name,category,price,price_unit,image FROM public.product";
 const getOneProduct = "SELECT product_id,shop_id,name,category,price,price_unit,image,image2 FROM public.product WHERE product_id = $1";
 
 const getFruits = () => {

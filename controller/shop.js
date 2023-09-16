@@ -46,8 +46,18 @@ const getData = async (req, res) => {
     }
 }
 
+const getAllShops = async (req, res) => {
+    try{
+        const shops = await Shop.getAllShops();
+        res.status(200).json({ shops: shops }); 
+    }catch(err){
+        res.status(400).json({ message: err });  
+    }
+}
+
 module.exports = {
     addProduct,
     getProducts,
     getData,
+    getAllShops,
 }

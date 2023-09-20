@@ -4,6 +4,8 @@ const pool = require('../db/db');
 const insertProduct = "INSERT INTO public.product(Shop_id,name,price,quantity,category,price_unit,quantity_unit,image) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)";
 const getShopID = "SELECT shop_id FROM public.shop WHERE user_id = $1";
 const getAllProducts = "SELECT * FROM public.product WHERE shop_id = $1";
+const getShopdata = "SELECT shop_name,image FROM public.shop WHERE shop_id = $1";
+const getAllshops = "SELECT shop_id,shop_name,image FROM public.shop";
 
 const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL) =>{
     return new Promise((resolve,reject)=>{
@@ -41,8 +43,34 @@ const getProducts = (shop_id) =>{
         })
     })
 }
+
+const getShopData = (shop_id) =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getShopdata,[shop_id],(error,results)=>{
+            if(error){
+                throw error;
+            }else{
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
+
+const getAllShops = () =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getAllshops,(error,results)=>{
+            if(error){
+                throw error;
+            }else{
+                resolve(results.rows);
+            }
+        })
+    })
+}
 module.exports = {
     addProduct,
     getShopId,
     getProducts,
+    getShopData,
+    getAllShops,
 }

@@ -8,4 +8,5 @@ const router = Router();
 router.post('/addProduct', upload.single('image'), shopController.addProduct);
 router.get('/getProducts/:userID', shopController.getProducts);
 router.get('/data/:userID', shopController.getData);
-module.exports = router;     
+router.get('/getAllShops', shopController.getAllShops);
+module.exports = router;

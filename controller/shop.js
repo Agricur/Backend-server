@@ -55,9 +55,22 @@ const getAllShops = async (req, res) => {
     }
 }
 
+const getShopDetails = async (req, res) => {
+    const shop_id = req.params.shopID;
+    try{
+        const shop = await Shop.getShopData(shop_id);
+        const products = await Shop.getProducts(shop_id);
+        shop.products = products;
+        res.status(200).json({ shop: shop }); 
+    }catch(err){
+        res.status(400).json({ message: err });  
+    }
+}
+
 module.exports = {
     addProduct,
     getProducts,
     getData,
     getAllShops,
+    getShopDetails,
 }

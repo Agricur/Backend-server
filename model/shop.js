@@ -45,7 +45,7 @@ const getProducts = (shop_id) =>{
 }
 
 const getShopData = (shop_id) =>{
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve,reject)=>{  
         pool.query(getShopdata,[shop_id],(error,results)=>{
             if(error){
                 throw error;

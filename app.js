@@ -27,6 +27,7 @@ const userRoutes = require("./Routes/userRoutes");
 const shopRoutes = require("./Routes/shopRoutes");
 const productRouts = require("./Routes/productRoutes")
 const cartRoutes = require("./Routes/cartRoutes");
+const adminRoutes = require("./Routes/adminRoutes");
 
 
 app.use('/api/buyer', buyerRoutes);
@@ -35,6 +36,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/shop', shopRoutes); 
 app.use('/api/product', productRouts);
 app.use('/api/cart', cartRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 //error handling

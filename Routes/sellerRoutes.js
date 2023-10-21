@@ -5,6 +5,6 @@ const router = Router();
 
 // Define routes related to user operations
 router.post('/seller-register', sellerController.createSeller);
+router.get('/data/:userID', sellerController.getSellerData);
 
 module.exports = router;
- 

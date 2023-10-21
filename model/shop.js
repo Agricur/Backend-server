@@ -6,6 +6,7 @@ const getShopID = "SELECT shop_id FROM public.shop WHERE user_id = $1";
 const getAllProducts = "SELECT * FROM public.product WHERE shop_id = $1";
 const getShopdata = "SELECT shop_name,image FROM public.shop WHERE shop_id = $1";
 const getAllshops = "SELECT shop_id,shop_name,image FROM public.shop";
+const getAddress = "SELECT number,street,city,district FROM public.shop_address WHERE shop_id = $1";
 
 const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL) =>{
     return new Promise((resolve,reject)=>{
@@ -67,10 +68,23 @@ const getAllShops = () =>{
         })
     })
 }
+
+const getShopAddress = (shop_id) =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getAddress,[shop_id],(error,results)=>{
+            if(error){
+                throw error;
+            }else{
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
 module.exports = {
     addProduct,
     getShopId,
     getProducts,
     getShopData,
     getAllShops,
+    getShopAddress
 }

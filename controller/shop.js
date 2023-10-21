@@ -19,7 +19,7 @@ const addProduct = async (req, res) => {
         res.status(400).json({ message: err });
     }
 
-};
+}; 
 
 const getProducts = async (req, res) => {
     const user_id = req.params.userID;

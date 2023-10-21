@@ -1,4 +1,5 @@
-const User = require("../model/seller");
+const User = require("../model/user");
+const Shop = require("../model/shop");
  
 const createSeller = async (req, res) => {
   const ip_address = req.ip;
@@ -15,7 +16,28 @@ const createSeller = async (req, res) => {
   
 };
 
+const getSellerData = async (req, res) => {
+
+    const seller_id = req.params.userID;
+    try{
+        const shop_id = await Shop.getShopId(seller_id);
+        const shopAddress = await Shop.getShopAddress(shop_id);
+        const phoneNo = await User.getContactNo(seller_id); 
+        res.json({
+          home_no: shopAddress.number,
+          street: shopAddress.street,
+          city: shopAddress.city,
+          district: shopAddress.district,
+          contact_no: phoneNo,
+      });
+
+    }catch(err){
+        res.status(400).json({ message: err });  
+    }
+}
+
 
 module.exports = {
   createSeller,
+  getSellerData,
 };

@@ -1,5 +1,7 @@
+const { Console, profile } = require("console");
 const Admin = require("../model/admin");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 
 const createAdmin = async (req, res) => {
   const { firstName, lastName, phoneNumber, email, password } = req.body;
@@ -48,22 +50,66 @@ const getData = async (req, res) => {
         }
         const adminId = decoded.admin_id;
         const type = decoded.type;
-        const admin = await Admin.getAdminName(adminId);
+        const admin = await Admin.getAdminDetails(adminId);
         if (!admin) {
           return res.status(404).json({ error: 'admin not found' });
         }
         first_name = admin.first_name;
+        email = admin.email;
+        last_name = admin.last_Name;
+        contact = admin.contact_no;
+        profile_photo = admin.profile_photo;
+
         // Send user data as a response
         res.json({
           first_name: first_name,
+          email: email,
+          last_name: last_name,
           admin_id: adminId,
+          contact: contact,
+          profile_photo: profile_photo,
           type: type, 
         });
       });
+}
+
+const updateAdminName = async (req, res) => {
+    const admin_id = req.params.adminId;
+    const {firstName,lastName} = req.body;
+    const message = await Admin.updateAdminName(admin_id,firstName,lastName);
+    res.status(201).json(message);
+}
+
+const updateAdminContact = async (req, res) => {
+    const admin_id = req.params.adminId;
+    const {contact} = req.body;
+    const message = await Admin.updateAdminContact(admin_id,contact);
+    res.status(201).json(message);
+}
+
+const updateAdminProfilePhoto = async (req, res) => {
+    const admin_id = req.params.adminId;
+
+    const file_name = req.file.filename; 
+    const profilePhoto = path.join(file_name)
+    console.log(profilePhoto);
+    const message = await Admin.updateAdminProfilePhoto(admin_id,profilePhoto);
+    res.status(201).json(message);
+}
+
+const updateAdminPassword = async (req, res) => {
+    const admin_id = req.params.adminId;
+    const {password} = req.body;
+    const message = await Admin.updateAdminPassword(admin_id,password);
+    res.status(201).json(message);
 }
 
 module.exports = {
   createAdmin,
   loginAdmin,
   getData,
+  updateAdminName,
+  updateAdminContact,
+  updateAdminProfilePhoto,
+  updateAdminPassword,
 };

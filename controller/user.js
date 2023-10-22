@@ -60,9 +60,7 @@ const editName = async (req, res) => {
 
 const editAddress = async (req, res) => {
     const user_id = req.params.userID; 
-    console.log(req.body);
     const {homeNo,street,city,district} = req.body; 
-    console.log(user_id,homeNo,street,city,district);
     await User.updateAddress(homeNo,street,city,district,user_id);
     res.status(201).json({ message: "Successfully updated the Address." });
 };
@@ -90,6 +88,16 @@ const getUserdata = async (req, res) => {
     });
 };
 
+const getUserInfo = async (req, res) => {
+    const user_id = req.params.userID 
+    const user = await User.getUserData(user_id);
+    res.json({
+        first_name: user.first_name,
+        email: user.email,
+        profile_photo: user.profile_photo,
+    });
+};
+
 
 
 // const isLogged = async (req, res, next) => {
@@ -112,5 +120,6 @@ module.exports = {
     editName,
     editAddress,
     editPhoto,
-    getUserdata
+    getUserdata,
+    getUserInfo,
 }

@@ -11,4 +11,5 @@ router.put('/edit-name/:userID', userController.editName);
 router.put('/edit-address/:userID', userController.editAddress);
 router.put('/edit-photo/:userID', upload.single('profilePhoto'), userController.editPhoto);
 router.get('/userData/:userID', userController.getUserdata);
+router.get('/getInfo/:userID', userController.getUserInfo);
 module.exports = router;

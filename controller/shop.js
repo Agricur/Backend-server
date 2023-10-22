@@ -1,4 +1,5 @@
 const Shop = require('../model/shop');
+const User = require('../model/user');
 const path = require('path');
 const {upload} = require('../multer');
 
@@ -67,10 +68,63 @@ const getShopDetails = async (req, res) => {
     }
 }
 
+const getShopInfo = async (req, res) => {
+    const user_id = req.params.userID;
+    const shop_id = await Shop.getShopId(user_id);
+    try{
+        const shop = await Shop.getShopData(shop_id);
+        const seller = await User.getUserData(user_id);
+        res.status(200).json({ 
+            shop_name: shop.shop_name,
+            shop_image: shop.image,
+            seller_name: seller.first_name,
+            seller_email: seller.email,
+            shop_id: shop_id,
+        }); 
+    }catch(err){
+        res.status(400).json({ message: err });  
+    }
+}
+
+const editName = async (req, res) => {
+    const shop_id = req.params.shopID;
+    const {shopName} = req.body;
+    await Shop.updateName(shopName,shop_id);
+    res.status(201).json({ message: "Successfully updated the Name." });
+}
+
+const editAddress = async (req, res) => {
+    const shop_id = req.params.shopID;
+    const {shopNo,street,city,district} = req.body;
+    await Shop.updateAddress(shopNo,street,city,district,shop_id);
+    res.status(201).json({ message: "Successfully updated the Address." });
+}
+
+const editPhoto = async (req, res) => {
+    const shop_id = req.params.shopID;
+    const file_name = req.file.filename;    
+    const file_URL = path.join(file_name)
+    await Shop.updatePhoto(file_URL,shop_id);
+    res.status(201).json({ message: "Successfully updated the Photo." });
+}
+
+const editDescription = async (req, res) => {
+    const shop_id = req.params.shopID;
+    const {shopDescription} = req.body;
+    console.log(shopDescription)
+    await Shop.updateDescription(shopDescription,shop_id);
+    res.status(201).json({ message: "Successfully updated the Description." });
+}
+
 module.exports = {
     addProduct,
     getProducts,
     getData,
     getAllShops,
     getShopDetails,
+    getShopInfo,
+    editName,
+    editAddress,
+    editPhoto,
+    editDescription
 }

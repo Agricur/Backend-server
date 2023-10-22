@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 const { promisify } = require("util");
 
 const loginUser = async (req, res) => {
@@ -38,18 +39,69 @@ const getData = async (req, res) => {
           return res.status(404).json({ error: 'User not found' });
         }
         first_name = user.first_name;
+        e_mail = user.email;
         // Send user data as a response
         res.json({
           first_name: first_name,
+          email: e_mail,
           user_id: userId,
-          is_seller: isSeller, 
+          is_seller: isSeller,
+          profile_photo: user.profile_photo
         });
       });
 }
 
- 
+const editName = async (req, res) => {
+    const user_id = req.params.userID; 
+    const {buyerName} = req.body; 
+    await User.updateName(buyerName,user_id);
+    res.status(201).json({ message: "Successfully updated the Name." });
+};
+
+const editAddress = async (req, res) => {
+    const user_id = req.params.userID; 
+    const {homeNo,street,city,district} = req.body; 
+    await User.updateAddress(homeNo,street,city,district,user_id);
+    res.status(201).json({ message: "Successfully updated the Address." });
+};
+
+const editPhoto = async (req, res) => {
+    const user_id = req.params.userID; 
+    const file_name = req.file.filename;    
+    const file_URL = path.join(file_name)
+    await User.updatePhoto(file_URL,user_id);
+    res.status(201).json({ message: "Successfully updated the Photo." });
+} 
+
+const getUserdata = async (req, res) => {
+    const user_id = req.params.userID 
+    const user = await User.getUserFullData(user_id);
+    res.json({
+        first_name: user.first_name,
+        email: user.email,
+        profile_photo: user.profile_photo,
+        home_no: user.home_no,
+        street: user.street,
+        city: user.city,
+        district: user.district,
+        contact_no: user.contact_no,
+    });
+};
+
+const getUserInfo = async (req, res) => {
+    const user_id = req.params.userID 
+    const user = await User.getUserData(user_id);
+    res.json({
+        first_name: user.first_name,
+        email: user.email,
+        profile_photo: user.profile_photo,
+    });
+};
+
+
+
 // const isLogged = async (req, res, next) => {
-//     if(req.cookie.jwt){
+//     if(req.cookie.jwt){ 
 //         try{
 //             const decoded = await promisify(jwt.verify)(req.cookie.jwt, process.env.JWT_SECRET) ;
 //             const user = await User.getUser(decoded.u_id);
@@ -61,7 +113,13 @@ const getData = async (req, res) => {
 //     }
 // };
 
+
 module.exports = {
     loginUser,
     getData,
+    editName,
+    editAddress,
+    editPhoto,
+    getUserdata,
+    getUserInfo,
 }

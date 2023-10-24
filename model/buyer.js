@@ -55,7 +55,6 @@ const hashPassword = async (password) => {
     } catch (err) {
         throw err;
     }
-
 }
 module.exports = {
     checkMail,  

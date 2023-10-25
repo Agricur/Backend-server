@@ -50,6 +50,16 @@ const insertProduct = async (req, res) => {
     userId = decoded.user_id;
   });
   const cart_id = await Cart.getCartId(userId);
+  
+  if (!cart_id) {
+    await Cart.createACart(userId);
+    const cartID = await Cart.getCartId(userId);
+    for (let i = 0; i < currentCart.length; i++) {
+      const { product_id, quantity, price, image } = currentCart[i];
+      await Cart.insertProduct(cartID, product_id, quantity, price, image);
+    }
+    return res.status(201).json({ message: "Products added to cart" });
+  }else{
 
   const getCartItems = await Cart.getCartItems(cart_id);
 
@@ -73,13 +83,9 @@ const insertProduct = async (req, res) => {
         await Cart.insertProduct(cart_id, product_id, quantity, price, image);
       }
     }
-  } else {
-    for (let i = 0; i < currentCart.length; i++) {
-      const { product_id, quantity, price,image } = currentCart[i];
-      await Cart.insertProduct(cart_id, product_id, quantity, price, image);
-    }
-  }
+  } 
   res.status(201).json({ message: "Products added to cart" });
+}
 }; 
 
 const getCart = async (req, res) => {

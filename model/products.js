@@ -6,7 +6,7 @@ const Grains = "SELECT product_id,shop_id,name,price,price_unit,image FROM publi
 const Fertilizers = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product WHERE category = 'Fertilizers'";
 const Equipments = "SELECT product_id,shop_id,name,price,price_unit,image FROM public.product WHERE category = 'Equipment'";
 const getProducts = "SELECT product_id,shop_id,name,category,price,price_unit,image,rating FROM public.product";
-const getOneProduct = "SELECT product_id,shop_id,name,category,price,price_unit,image,image2 FROM public.product WHERE product_id = $1";
+const getOneProduct = "SELECT product_id,shop_id,name,category,price,quantity,price_unit,quantity_unit,image,image2,selling_quantities FROM public.product WHERE product_id = $1";
 const insertRating = "INSERT INTO public.product_rating(product_id,user_id, rating) VALUES ($1, $2, $3)";
 const gettingRating = "SELECT rating FROM public.product_rating WHERE product_id = $1 and user_id = $2";
 const updatingRatings = "UPDATE public.product_rating SET rating = $1 WHERE product_id = $2 and user_id = $3";

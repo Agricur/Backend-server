@@ -89,6 +89,12 @@ const getProduct = async (req, res) => {
   try {
     const product_id = req.params.id;
     const product = await Product.getProduct(product_id);
+    if (product.selling_quantities === "") {
+      product.selling_quantities = [];
+    } else {
+      const selling_quantities = JSON.parse(product.selling_quantities);
+      product.selling_quantities = selling_quantities;
+    }
     const shop_id = product.shop_id;
     const shop_name = await User.getShopNames(shop_id);
     product.shop_name = shop_name;
@@ -118,17 +124,16 @@ const addRating = async (req, res) => {
 
     const ratingExists = await Product.getRating(product_id, user_id);
 
-    if(ratingExists.length === 0){
-        await Product.addRating(product_id, points, user_id);
-        res.status(200).json("Rating added successfully");
-    }else{
-        await Product.updateRatings(points, product_id, user_id);
-        res.status(200).json("Rating updated successfully");
+    if (ratingExists.length === 0) {
+      await Product.addRating(product_id, points, user_id);
+      res.status(200).json("Rating added successfully");
+    } else {
+      await Product.updateRatings(points, product_id, user_id);
+      res.status(200).json("Rating updated successfully");
     }
 
     const average = await calculateRatings(product_id);
-    await Product.updateProductRatings(average, product_id);
-    
+    await Product.updateProductRatings(average.toFixed(1), product_id);
   } catch (err) {
     res.status(400).json({ message: err });
   }
@@ -142,7 +147,7 @@ const calculateRatings = async (product_id) => {
       sum += rating.rating;
     }
     const average = sum / points.length;
-    const avgRating = average/50
+    const avgRating = average / 20;
     return avgRating;
   } catch (err) {
     return err;
@@ -150,19 +155,21 @@ const calculateRatings = async (product_id) => {
 };
 
 const getRating = async (req, res) => {
-    try {
-        const product_id = req.params.productId;
-        const rating = await Product.getProductRatings(product_id);
-
-        if(rating.rating === null){
-            res.status(200).json({rating:{ rating: 0 }});
-        }else{
-            res.status(200).json({ rating: rating });
-        }
-    } catch (err) {
-        res.status(400).json({ message: err });
+  try {
+    const product_id = req.params.productId;
+    const ratings = await Product.getProductRatings(product_id);
+    const rating = {
+      rating: parseFloat(ratings.rating).toFixed(1),
+    };
+    if (rating.rating === null) {
+      res.status(200).json({ rating: { rating: 0 } });
+    } else {
+      res.status(200).json({ rating: rating });
     }
-    }
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+};
 
 module.exports = {
   getAllProducts,

@@ -1,7 +1,7 @@
 const { get } = require('../app');
 const pool = require('../db/db');
 
-const insertProduct = "INSERT INTO public.product(Shop_id,name,price,quantity,category,price_unit,quantity_unit,image) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)";
+const insertProduct = "INSERT INTO public.product(Shop_id,name,price,quantity,category,price_unit,quantity_unit,image,selling_quantities) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)";
 const getShopID = "SELECT shop_id FROM public.shop WHERE user_id = $1";
 const getAllProducts = "SELECT * FROM public.product WHERE shop_id = $1";
 const getShopdata = "SELECT shop_name,image FROM public.shop WHERE shop_id = $1";
@@ -12,9 +12,9 @@ const updateAddressByID = "UPDATE public.shop_address SET number = $1, street = 
 const updatePhotoByID = "UPDATE public.shop SET image = $1 WHERE shop_id = $2";
 const updateDescriptionByID = "UPDATE public.shop SET description = $1 WHERE shop_id = $2";
 
-const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL) =>{
+const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL,sellingQuantities) =>{
     return new Promise((resolve,reject)=>{
-        pool.query(insertProduct,[shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL],(error,results)=>{
+        pool.query(insertProduct,[shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL,sellingQuantities],(error,results)=>{
             if(error){
                 throw error;
             }else{

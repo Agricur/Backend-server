@@ -14,7 +14,7 @@ const createSeller = async (req, res) => {
   } else {
     const message = await Seller.createUser(ip_address,first_name,last_name,shop_name,contact_no,email,password,number,street,city,district);
     res.status(201).json(message);
-  }
+  } 
   
 };
  

@@ -4,7 +4,7 @@ const pool = require('../db/db');
 const insertProduct = "INSERT INTO public.product(Shop_id,name,price,quantity,category,price_unit,quantity_unit,image,selling_quantities) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)";
 const getShopID = "SELECT shop_id FROM public.shop WHERE user_id = $1";
 const getAllProducts = "SELECT * FROM public.product WHERE shop_id = $1";
-const getShopdata = "SELECT shop_name,image FROM public.shop WHERE shop_id = $1";
+const getShopdata = "SELECT * FROM public.shop WHERE shop_id = $1";
 const getAllshops = "SELECT shop_id,shop_name,image FROM public.shop";
 const getAddress = "SELECT number,street,city,district FROM public.shop_address WHERE shop_id = $1";
 const updateNameByID = "UPDATE public.shop SET shop_name = $1 WHERE shop_id = $2";
@@ -55,6 +55,7 @@ const getShopData = (shop_id) =>{
             if(error){
                 throw error;
             }else{
+                console.log(results.rows[0]);
                 resolve(results.rows[0]);
             }
         })

@@ -95,7 +95,7 @@ const checkMail = (email) => {
       });
     });
   };
-
+ 
 const getShopNames = (shop_id) =>{
   return new Promise((resolve,reject)=>{
     pool.query(getShopName,[shop_id],(error,results)=>{

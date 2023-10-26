@@ -60,9 +60,14 @@ if(process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 // create server
+// const server = app.listen(process.env.PORT, process.env.IPADDRESS, () => {
+//     console.log(`Server is running on port ${process.env.PORT}`);
+// }); 
+
 const server = app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
+
 
 // handle unhandled promise rejections
 process.on('unhandledRejection', err => {

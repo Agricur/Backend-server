@@ -10,6 +10,6 @@ router.get('/getGrains', productController.getGrains);
 router.get('/getFertilizers', productController.getFertilizers);
 router.get('/getEquipments', productController.getEquipments);
 router.get('/getProduct/:id', productController.getProduct);
- 
 
+ 
 module.exports = router; 

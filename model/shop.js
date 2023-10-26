@@ -6,6 +6,11 @@ const getShopID = "SELECT shop_id FROM public.shop WHERE user_id = $1";
 const getAllProducts = "SELECT * FROM public.product WHERE shop_id = $1";
 const getShopdata = "SELECT shop_name,image FROM public.shop WHERE shop_id = $1";
 const getAllshops = "SELECT shop_id,shop_name,image FROM public.shop";
+const getAddress = "SELECT number,street,city,district FROM public.shop_address WHERE shop_id = $1";
+const updateNameByID = "UPDATE public.shop SET shop_name = $1 WHERE shop_id = $2";
+const updateAddressByID = "UPDATE public.shop_address SET number = $1, street = $2, city = $3, district = $4 WHERE shop_id = $5";
+const updatePhotoByID = "UPDATE public.shop SET image = $1 WHERE shop_id = $2";
+const updateDescriptionByID = "UPDATE public.shop SET description = $1 WHERE shop_id = $2";
 
 const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL) =>{
     return new Promise((resolve,reject)=>{
@@ -67,10 +72,76 @@ const getAllShops = () =>{
         })
     })
 }
+
+const getShopAddress = (shop_id) =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getAddress,[shop_id],(error,results)=>{
+            if(error){
+                throw error;
+            }else{
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
+
+const updateName = (shopName, shop_id) =>{
+    return new Promise((resolve, reject) => {
+        pool.query(updateNameByID, [shopName, shop_id], (error, results) => {
+          if (error) {
+            throw (error);
+          } else {
+            resolve(results.rows);
+          }
+        });
+      });
+}
+
+const updateAddress = (shopNo, street, city, district, shop_id) =>{
+    return new Promise((resolve, reject) => {
+        pool.query(updateAddressByID, [shopNo, street, city, district, shop_id], (error, results) => {
+          if (error) {
+            throw (error);
+          } else {
+            resolve(results.rows);
+          }
+        });
+      });
+}
+
+const updatePhoto = (file_URL, shop_id) => {
+    return new Promise((resolve, reject) => {
+      pool.query(updatePhotoByID, [file_URL, shop_id], (error, results) => {
+        if (error) {
+          throw (error);
+        } else {
+          resolve(results.rows);
+        }
+      });
+    });
+  }
+
+const updateDescription = (shopDescription,shop_id) =>{
+    return new Promise((resolve, reject) => {
+        pool.query(updateDescriptionByID, [shopDescription, shop_id], (error, results) => {
+          if (error) {
+            throw (error);
+          } else {
+            resolve(results.rows);
+          }
+        });
+      });
+}
+
 module.exports = {
     addProduct,
     getShopId,
     getProducts,
     getShopData,
     getAllShops,
+    getShopAddress,
+    updateName,
+    updateAddress,
+    updatePhoto,
+    updateDescription,
 }

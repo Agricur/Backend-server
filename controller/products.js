@@ -147,7 +147,7 @@ const calculateRatings = async (product_id) => {
       sum += rating.rating;
     }
     const average = sum / points.length;
-    const avgRating = average / 50;
+    const avgRating = average / 20;
     return avgRating;
   } catch (err) {
     return err;

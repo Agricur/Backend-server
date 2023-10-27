@@ -1,7 +1,7 @@
 
 const Seller = require("../model/seller");
-const User = require("../model/user");
-const Shop = require("../model/shop");
+const User = require("../model/user"); 
+const Shop = require("../model/shop"); 
  
 const createSeller = async (req, res) => {
   const ip_address = req.ip;

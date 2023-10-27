@@ -1,7 +1,7 @@
 
 const Seller = require("../model/seller");
-const User = require("../model/user");
-const Shop = require("../model/shop");
+const User = require("../model/user"); 
+const Shop = require("../model/shop"); 
  
 const createSeller = async (req, res) => {
   const ip_address = req.ip;
@@ -38,8 +38,30 @@ const getSellerData = async (req, res) => {
     }
 }
 
+const getCourier = async (req, res) => {
+  const shop_id = req.params.shopID;
+  try{
+    const courier = await Shop.getCourier(shop_id);
+    const name = await Shop.getCourierName(courier.courier_id);
+    res.json(name);
+  }catch(err){
+    res.status(400).json({ message: err });  
+  }
+}
+
+const getCourierPrice = async (req, res) => {
+  const district = req.params.district;
+  try{
+    const price = await Shop.getCourierPrice(district);
+    res.json(price);
+  }catch(err){
+    res.status(400).json({ message: err });  
+  }
+}
 
 module.exports = {
   createSeller,
   getSellerData,
+  getCourier,
+  getCourierPrice,
 };

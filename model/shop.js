@@ -11,6 +11,9 @@ const updateNameByID = "UPDATE public.shop SET shop_name = $1 WHERE shop_id = $2
 const updateAddressByID = "UPDATE public.shop_address SET number = $1, street = $2, city = $3, district = $4 WHERE shop_id = $5";
 const updatePhotoByID = "UPDATE public.shop SET image = $1 WHERE shop_id = $2";
 const updateDescriptionByID = "UPDATE public.shop SET description = $1 WHERE shop_id = $2";
+const getCourierByID = "SELECT courier_id FROM public.shop WHERE shop_id = $1";
+const getCourierPriceByDistrict = "SELECT price FROM public.courier WHERE district = $1";
+const getCourierNameById = "SELECT courier_service FROM public.courier WHERE courier_id = $1";
 
 const addProduct = (shop_id,name,price,quantity,category,priceUnit,quantityUnit,file_URL,sellingQuantities) =>{
     return new Promise((resolve,reject)=>{
@@ -134,6 +137,44 @@ const updateDescription = (shopDescription,shop_id) =>{
       });
 }
 
+const getCourier = (shop_id) =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getCourierByID,[shop_id],(error,results)=>{
+            if(error){
+                throw error;
+            }else{  
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
+
+const getCourierName = (courier_id) =>{
+
+    return new Promise((resolve,reject)=>{
+        pool.query(getCourierNameById,[courier_id],(error,results)=>{
+            if(error){
+                throw error;
+            }else{  
+             
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
+
+const getCourierPrice = (district) =>{
+    return new Promise((resolve,reject)=>{
+        pool.query(getCourierPriceByDistrict,[district],(error,results)=>{
+            if(error){
+                throw error;
+            }else{  
+                resolve(results.rows[0]);
+            }
+        })
+    })
+}
+
 module.exports = {
     addProduct,
     getShopId,
@@ -145,4 +186,7 @@ module.exports = {
     updateAddress,
     updatePhoto,
     updateDescription,
+    getCourier,
+    getCourierPrice,
+    getCourierName,
 }

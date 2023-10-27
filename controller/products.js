@@ -94,10 +94,11 @@ const getProduct = async (req, res) => {
     } else {
       const selling_quantities = JSON.parse(product.selling_quantities);
       product.selling_quantities = selling_quantities;
-    }
+    } 
     const shop_id = product.shop_id;
     const shop_name = await User.getShopNames(shop_id);
-    product.shop_name = shop_name;
+    product.shop_name = shop_name; 
+    product.shop_id = shop_id; 
     res.status(200).json({ product: product });
   } catch (err) {
     res.status(400).json({ message: err });

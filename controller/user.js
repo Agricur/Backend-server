@@ -40,10 +40,13 @@ const getData = async (req, res) => {
           return res.status(404).json({ error: 'User not found' });
         }
         first_name = user.first_name;
-        e_mail = user.email;
+        last_name = user.last_name;
+        // console.log(user);
+        e_mail = user.email;  
         // Send user data as a response
         res.json({
           first_name: first_name,
+          last_name: last_name,
           email: e_mail,
           user_id: userId,
           is_seller: isSeller,
@@ -83,10 +86,12 @@ const getUserdata = async (req, res) => {
         profile_photo: user.profile_photo,
         home_no: user.home_no,
         street: user.street,
-        city: user.city,
+        city: user.city, 
         district: user.district,
         contact_no: user.contact_no,
-    });
+
+    }); 
+
 };
 
 const getUserInfo = async (req, res) => {

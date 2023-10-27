@@ -1,4 +1,5 @@
-const seller = require("../model/seller");
+
+const Seller = require("../model/seller");
 const User = require("../model/user");
 const Shop = require("../model/shop");
  
@@ -11,15 +12,15 @@ const createSeller = async (req, res) => {
   if (emailExists) {
     res.status(400).json({ message: 'Email already exists' });  
   } else {
-    const message = await seller.createUser(ip_address,first_name,last_name,shop_name,contact_no,email,password,number,street,city,district);
+    const message = await Seller.createUser(ip_address,first_name,last_name,shop_name,contact_no,email,password,number,street,city,district);
     res.status(201).json(message);
   }
   
 };
-
+ 
 const getSellerData = async (req, res) => {
 
-    const seller_id = req.params.userID;
+    const seller_id = req.params.userID; 
     try{
         const shop_id = await Shop.getShopId(seller_id);
         const shopAddress = await Shop.getShopAddress(shop_id);

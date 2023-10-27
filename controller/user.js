@@ -6,6 +6,7 @@ const { promisify } = require("util");
 const loginUser = async (req, res) => {
     const {email,password} = req.body;
     const emailExists = await User.checkMail(email);
+    console.log(emailExists);
     if(!emailExists){
         res.status(400).json({ message: "Account doesn't exists!" });
     }else{

@@ -31,9 +31,10 @@ const getUserData = (user_id) => {
         reject(error);
       } else {
         first_name = results.rows[0].first_name;
+        last_name = results.rows[0].last_name;
         email = results.rows[0].email;
         profile_photo = results.rows[0].profile_photo;
-        resolve({first_name, email, profile_photo});
+        resolve({first_name,last_name, email, profile_photo});
 };
     });
   }); 

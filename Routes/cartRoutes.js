@@ -7,6 +7,7 @@ router.post('/createCart', cartController.createCart);
 router.post('/insertProduct', cartController.insertProduct);
 router.get('/getCart', cartController.getCart); 
 router.post('/updateCartItems',cartController.updateCart)
+router.post('/updateCart', cartController.updateCartWeight);
 router.post('/removeItems', cartController.removeItems)
 
 module.exports = router;  

@@ -82,10 +82,11 @@ const getUserdata = async (req, res) => {
         profile_photo: user.profile_photo,
         home_no: user.home_no,
         street: user.street,
-        city: user.city,
+        city: user.city, 
         district: user.district,
         contact_no: user.contact_no,
     });
+    
 };
 
 const getUserInfo = async (req, res) => {

@@ -189,7 +189,68 @@ const removeItems = async (req,res)=>{
   }
  
 }
+
+const getCartMobile = async (req, res) => {
+  const user_id = req.params.userID;
+  const cart_id = await Cart.getCartId(user_id);
+  if (!cart_id) {
+    return res.status(200).json({ error: "No cart items" });
+  }
+  const cartItems = await Cart.getCartItems(cart_id);
+  if (!cartItems) {
+    return res.status(200).json({ error: "No cart items" });
+  }
+
+  for (let i = 0; i < cartItems.length; i++) {
+    const { product_id } = cartItems[i];
+    const product = await Product.getProduct(product_id);
+    cartItems[i].name = product.name;
+  }
+
+  res.status(200).json({ cartItems });
+};
  
+const updateCartMobile = async (req, res) => {
+  const { user_id, cartItems } = req.body;
+  const cart_id = await Cart.getCartId(user_id);
+  const currentCart = await Cart.getCartItems(cart_id);
+  for (let i = 0; i < currentCart.length; i++) {
+    const { product_id, quantity } = currentCart[i];
+    const currentProductId = product_id;
+    const currentQuantity = quantity;
+    for (let j = 0; j < cartItems.length; j++) {
+      const { product_id, quantity } = cartItems[j];
+      const id = product_id;
+      // console.log(currentProductId,id)
+      if (currentProductId === id && quantity != currentQuantity) {
+        // console.log(quantity,currentQuantity,id)
+        await Cart.updateQuantity(quantity, cart_id, id);
+      }
+    }
+  }
+};
+
+const removeItemsMobile = async (req, res) => {
+  const { user_id, cartItems } = req.body;
+  const cart_id = await Cart.getCartId(user_id);
+  const currentCart = await Cart.getCartItems(cart_id);
+  for (let i = 0; i < currentCart.length; i++) {
+    const { product_id } = currentCart[i];
+    const currentProductId = product_id;
+    var count = 0;
+    for (let j = 0; j < cartItems.length; j++) {
+      const { product_id } = cartItems[j];
+      const id = product_id;
+      if (currentProductId != id) {
+        count++;
+      }
+    }
+    if (count == cartItems.length) {
+      await Cart.deleteProduct(cart_id, currentProductId);
+    }
+  }
+};
+
 module.exports = {
   createCart,
   insertProduct,
@@ -197,5 +258,8 @@ module.exports = {
   updateCart,
   updateCartWeight,
   removeItems,
+  getCartMobile,
+  updateCartMobile,
+  removeItemsMobile,
 };
   

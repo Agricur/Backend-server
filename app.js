@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require('path');
 // const ErrorHandler = require("./utils/ErrorHandler");
 const app = express();
 
@@ -7,16 +6,12 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// app.use(express.json());
-app.use(express.static(path.join(__dirname, '../Agricur-E-Marketplace/public')));
+app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 app.use("/",express.static("uploads"));
 app.use(bodyParser.urlencoded({extended : true,limit:"50mb"}));
 
-app.get('*', (req, res) => {
-    res.sendFile('public/index.html', { root: path.join(__dirname, '../Agricur-E-Marketplace/public') });
-  });
  
 // config
 if(process.env.NODE_ENV !== "PRODUCTION") {

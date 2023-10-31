@@ -14,7 +14,7 @@ const getRatingbyProduct = "SELECT rating FROM public.product_rating WHERE produ
 const updateProductRating = "UPDATE public.product SET rating = $1 WHERE product_id = $2";
 const getProductRating = "SELECT rating FROM public.product WHERE product_id = $1";
 
-const getFruits = () => {
+const getFruits = () => { 
     return new Promise((resolve, reject) => {
       pool.query(Fruits, (error, results) => {
         if (error) {

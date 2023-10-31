@@ -4,7 +4,7 @@ const { upload } = require('../multer');
 
 const router = Router();
 
-// Define routes related to user operations
+
 router.post('/user-login', userController.loginUser);  
 router.get('/data', userController.getData);
 router.put('/edit-name/:userID', userController.editName);

@@ -1,5 +1,4 @@
 const express = require("express");
-// const ErrorHandler = require("./utils/ErrorHandler");
 const app = express();
 
 const cookieParser = require("cookie-parser");
@@ -13,14 +12,14 @@ app.use("/",express.static("uploads"));
 app.use(bodyParser.urlencoded({extended : true,limit:"50mb"}));
 
  
-// config
+
 if(process.env.NODE_ENV !== "PRODUCTION") {
     require("dotenv").config({
         path:"config/.env"
     })
 }
 
-//import routes
+
 const buyerRoutes = require("./Routes/buyerRoutes");
 const sellerRoutes = require("./Routes/sellerRoutes");
 const userRoutes = require("./Routes/userRoutes");
@@ -39,8 +38,6 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/admin', adminRoutes);
 
 
-//error handling
-// app.use(ErrorHandler); 
 
  
 module.exports = app; 

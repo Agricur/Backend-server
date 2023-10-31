@@ -11,7 +11,6 @@ const createCart = async (req, res) => {
     cart_id = await Cart.getCartId(user_id);
   }
   const { cartItems } = req.body;
-  // console.log(cartItems)
   const getCartItems = await Cart.getCartItems(cart_id);
   if (getCartItems) {
     for (let i = 0; i < cartItems.length; i++) {
@@ -143,9 +142,7 @@ const updateCart = async (req, res) => {
     for (let j = 0; j < cartItems.length; j++) {
       const { product_id, quantity } = cartItems[j];
       const id = product_id
-      // console.log(currentProductId,id)
       if (currentProductId === id && quantity != currentQuantity ) {   
-          // console.log(quantity,currentQuantity,id)
           await Cart.updateQuantity(quantity, cart_id, id);
       }
     }
@@ -221,9 +218,7 @@ const updateCartMobile = async (req, res) => {
     for (let j = 0; j < cartItems.length; j++) {
       const { product_id, quantity } = cartItems[j];
       const id = product_id;
-      // console.log(currentProductId,id)
       if (currentProductId === id && quantity != currentQuantity) {
-        // console.log(quantity,currentQuantity,id)
         await Cart.updateQuantity(quantity, cart_id, id);
       }
     }
